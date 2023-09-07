@@ -9,41 +9,49 @@ namespace grupp
     public class Group
     {
         public List<Liik> Members { get; } = new List<Liik>();
-        private readonly int _maxAmount;
+        public int MaxAmount { get; set; }
 
         public Group(int maxAmount)
         {
-            _maxAmount = maxAmount;
+            MaxAmount = maxAmount;
         }
 
-        public bool AddMember(Liik member)
+        public void AddMember(Liik member)
         {
-            Liik liik = new Liik("", 0, "");
+            Liik liik = new Liik("", 0, "", 0);
             Console.ForegroundColor = ConsoleColor.Red;
             if (Members.Contains(member))
             {
                 Console.WriteLine("Liik ei ole lisatud! Selline liige on juba olemas");
                 Console.ForegroundColor = ConsoleColor.White;
-                return false;
+                Console.Write("\nVajutage Enter...");
+                Console.ReadLine();
+                return;
             }
-            if (Members.Count >= _maxAmount)
+            if (Members.Count >= MaxAmount)
             {
                 Console.WriteLine("Liik ei ole lisatud! Osalejate arv grupis on täis");
                 Console.ForegroundColor = ConsoleColor.White;
-                return false;
+                Console.Write("\nVajutage Enter...");
+                Console.ReadLine();
+                return;
             }
-            if (member == liik)
+            if (member.Name == liik.Name && member.Age == liik.Age && member.City == liik.City)
             {
                 Console.WriteLine("Liik ei ole lisatud! Tühjust lisada ei saa");
                 Console.ForegroundColor = ConsoleColor.White;
-                return false;
+                Console.Write("\nVajutage Enter...");
+                Console.ReadLine();
+                return;
             }
             Console.ForegroundColor = ConsoleColor.Green;
             Console.WriteLine("Liik on lisatud");
             Members.Add(member);
             Console.ForegroundColor = ConsoleColor.White;
             ShowInfo();
-            return true;
+            Console.Write("\nVajutage Enter...");
+            Console.ReadLine();
+            return;
         }
 
         public int GetMembersCount()
@@ -58,7 +66,7 @@ namespace grupp
 
         public void ShowInfo()
         {
-            Console.WriteLine("Osalejate arv: {0}/{1}", _maxAmount, Members.Count);
+            Console.WriteLine("Osalejate arv: {0}/{1}", MaxAmount, Members.Count);
             Console.Write("Liikmed: ");
             foreach (Liik item in Members)
             {
@@ -74,7 +82,15 @@ namespace grupp
             {
                 MembersAge.Add(item.Age);
             }
-            int MaxAge=MembersAge.Max();
+            int MaxAge;
+            try
+            {
+                MaxAge = MembersAge.Max();
+            }
+            catch (Exception)
+            {
+                return;
+            }
             foreach (Liik item in Members)
             {
                 if (item.Age==MaxAge)
@@ -84,8 +100,8 @@ namespace grupp
             }
             switch (MembersMaxAge.Count)
             {
-                case 1: Console.WriteLine("Kõige vanem on {0}", MembersMaxAge[0]); break;
-                default: Console.WriteLine("Kõige vanimad on "+string.Join(", ", MembersMaxAge)); break;
+                case 1: Console.WriteLine("Kõige vanem on {0}", MembersMaxAge[0]); Console.Write("\nVajutage Enter..."); Console.ReadLine(); break;
+                default: Console.WriteLine("Kõige vanimad on "+string.Join(", ", MembersMaxAge)); Console.Write("\nVajutage Enter..."); Console.ReadLine(); break;
             }
         }
 
@@ -98,7 +114,15 @@ namespace grupp
                 {
                     MembersAge.Add(item.Age);
                 }
-                int MinAge = MembersAge.Min();
+                int MinAge;
+                try
+                {
+                    MinAge = MembersAge.Min();
+                }
+                catch (Exception)
+                {
+                    return;
+                }
                 foreach (Liik item in Members)
                 {
                     if (item.Age==MinAge)
@@ -108,8 +132,8 @@ namespace grupp
                 }
                 switch (MembersMinAge.Count)
                 {
-                    case 1: Console.WriteLine("Kõige noorem on {0}", MembersMinAge[0]);  break;
-                    default: Console.WriteLine("Kõige noorimad on "+string.Join(", ", MembersMinAge));break;
+                    case 1: Console.WriteLine("Kõige noorem on {0}", MembersMinAge[0]); Console.Write("\nVajutage Enter..."); Console.ReadLine(); break;
+                    default: Console.WriteLine("Kõige noorimad on "+string.Join(", ", MembersMinAge)); Console.Write("\nVajutage Enter..."); Console.ReadLine(); break;
                 }
             }
         }
@@ -122,12 +146,16 @@ namespace grupp
             Console.ForegroundColor= ConsoleColor.Green;
             Console.WriteLine("Grupp on lisatud");
             Console.ForegroundColor= ConsoleColor.White;
+            Console.Write("\nVajutage Enter...");
+            Console.ReadLine();
             return grupp;
         }
 
-        public void Menu()
+        public void DelMember(Liik liik)
         {
-            Console.WriteLine("Menu\n\n * Grupp\n     [1] Loo grupp\n     [2] Lisa gruppi\n     [3] Kõige vanem\n     [4] Kõige noorem\n\n * Liik\n     [5] Loo liik\n     [6] Loo liikmed\n");
+            Members.Remove(liik);
+            Console.Write("\nVajutage Enter...");
+            Console.ReadLine();
         }
     }
 }
