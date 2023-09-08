@@ -50,7 +50,7 @@ namespace grupp
                     case '9':
                         liik = liik.Choice(liikList);
                         liikList.Remove(liik);
-                        grupp.DelMember(liik); 
+                        grupp.DelMember(liik);
                         break;
                     case '6':
                         liik.ShowInfoAll(grupp.Members);

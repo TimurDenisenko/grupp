@@ -66,7 +66,7 @@ namespace grupp
 
         public void ShowInfo()
         {
-            Console.WriteLine("Osalejate arv: {0}/{1}", MaxAmount, Members.Count);
+            Console.WriteLine("Osalejate arv: {1}/{0}", MaxAmount, Members.Count);
             Console.Write("Liikmed: ");
             foreach (Liik item in Members)
             {
